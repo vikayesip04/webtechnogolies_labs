@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Simple Homepage</title>
+    <title>Black-White Angels</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="header">
-        <div class="logo">MyLogo</div>
+        <div class="logo">Black-White Angels</div>
         <nav class="nav">
             <a href="#">Home</a>
             <a href="#">About</a>
@@ -20,7 +20,7 @@
 
     <section class="hero">
         <div class="hero-text">
-            <h1>Welcome to Our Website</h1>
+            <h1>Welcome to Black-White Angels</h1>
             <p>Your success, our commitment.</p>
             <button class="hero-btn">Get Started</button>
         </div>
@@ -28,21 +28,24 @@
 
     <section class="features">
         <div class="feature">
-            <h2>Feature One</h2>
-            <p>Description of feature one.</p>
+            <h2>Story</h2>
+            <p>Black-White Angels, an Italian, American, Japanese, and Ukrainian legendary group, was created in 2002. This group had 5 members and conquered the hearts of Europe, the USA, and Japan. Disbanded in 2012 after the release of 2 albums, they returned in 2021, not only with their original members but also with other singers. Their third album, *Awakening in The Dark!*, was released after their return.</p>
         </div>
         <div class="feature">
-            <h2>Feature Two</h2>
-            <p>Description of feature two.</p>
+            <h2>Participants</h2>
+            <p>As of 2024, there are a total of 84 participants.</p>
         </div>
         <div class="feature">
-            <h2>Feature Three</h2>
-            <p>Description of feature three.</p>
+            <h2>Albums</h2>
+            <p>Album 1: Black-White Angels - BEGIN! (2002-2007)<br>
+               Album 2: ShowTime! (2008-2012)<br>
+               Album 3: Awakening in The Dark! (2023-2024)<br>
+               Album 4: Unstoppable (2024-)</p>
         </div>
     </section>
 
     <footer class="footer">
-        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+        <p>&copy; 2024 Black-White Angels. All Rights Reserved.</p>
     </footer>
 </body>
 </html>
