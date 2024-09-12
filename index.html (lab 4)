@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Homepage</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">MyLogo</div>
+        <nav class="nav">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Welcome to Our Website</h1>
+            <p>Your success, our commitment.</p>
+            <button class="hero-btn">Get Started</button>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature">
+            <h2>Feature One</h2>
+            <p>Description of feature one.</p>
+        </div>
+        <div class="feature">
+            <h2>Feature Two</h2>
+            <p>Description of feature two.</p>
+        </div>
+        <div class="feature">
+            <h2>Feature Three</h2>
+            <p>Description of feature three.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
