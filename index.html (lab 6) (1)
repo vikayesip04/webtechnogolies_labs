@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор</title>
+    <style>
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            color: green;
+        }
+        #error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Калькулятор</h1>
+    <form id="calculator">
+        <input type="number" id="number1" placeholder="Перше число" required>
+        <input type="number" id="number2" placeholder="Друге число" required>
+        <button type="button" id="addButton">Додати</button>
+    </form>
+    <div id="result"></div>
+    <button id="toggleButton">Приховати результат</button>
+    <div id="error"></div>
+
+    <script>
+        const addButton = document.getElementById('addButton');
+        const toggleButton = document.getElementById('toggleButton');
+        const resultDiv = document.getElementById('result');
+        const errorDiv = document.getElementById('error');
+
+        // Додавання чисел
+        addButton.addEventListener('click', () => {
+            const num1 = parseFloat(document.getElementById('number1').value);
+            const num2 = parseFloat(document.getElementById('number2').value);
+            
+            // Валідація введених даних
+            if (isNaN(num1) || isNaN(num2)) {
+                errorDiv.textContent = 'Будь ласка, введіть коректні числа.';
+                resultDiv.textContent = '';
+                return;
+            } else {
+                errorDiv.textContent = '';
+            }
+
+            const sum = num1 + num2;
+            resultDiv.textContent = `Результат: ${sum}`;
+        });
+
+        // Приховування/показ результату
+        toggleButton.addEventListener('click', () => {
+            if (resultDiv.style.display === 'none') {
+                resultDiv.style.display = 'block';
+                toggleButton.textContent = 'Приховати результат';
+            } else {
+                resultDiv.style.display = 'none';
+                toggleButton.textContent = 'Показати результат';
+            }
+        });
+    </script>
+</body>
+</html>
