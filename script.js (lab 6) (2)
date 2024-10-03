@@ -1,0 +1,39 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('calculator-form');
+    const number1Input = document.getElementById('number1');
+    const number2Input = document.getElementById('number2');
+    const resultContainer = document.getElementById('result-container');
+    const resultText = document.getElementById('result');
+    const errorMessage = document.getElementById('error-message');
+    const toggleResultButton = document.getElementById('toggle-result');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Запобігаємо перезавантаженню сторінки
+
+        const number1 = parseFloat(number1Input.value);
+        const number2 = parseFloat(number2Input.value);
+        errorMessage.classList.add('hidden');
+
+        // Валідація полів
+        if (isNaN(number1) || isNaN(number2)) {
+            errorMessage.textContent = 'Будь ласка, введіть коректні числа.';
+            errorMessage.classList.remove('hidden');
+            return;
+        }
+
+        const sum = number1 + number2;
+        resultText.textContent = `Результат: ${sum}`;
+        resultContainer.classList.remove('hidden');
+        toggleResultButton.textContent = 'Приховати результат';
+    });
+
+    toggleResultButton.addEventListener('click', function () {
+        if (resultContainer.classList.contains('hidden')) {
+            resultContainer.classList.remove('hidden');
+            toggleResultButton.textContent = 'Приховати результат';
+        } else {
+            resultContainer.classList.add('hidden');
+            toggleResultButton.textContent = 'Показати результат';
+        }
+    });
+});
