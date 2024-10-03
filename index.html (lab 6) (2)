@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Калькулятор</h1>
+        <form id="calculator-form">
+            <input type="text" id="number1" placeholder="Введіть перше число" required>
+            <input type="text" id="number2" placeholder="Введіть друге число" required>
+            <button type="submit">Додати</button>
+        </form>
+        <div id="result-container" class="result hidden">
+            <p id="result"></p>
+            <button id="toggle-result">Приховати результат</button>
+        </div>
+        <p id="error-message" class="error hidden"></p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
