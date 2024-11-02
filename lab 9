@@ -1,0 +1,83 @@
+В PostgreSQL
+
+Таблиця books
+CREATE TABLE books (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100),
+    author VARCHAR(100),
+    published_year INTEGER
+);
+
+Записи в таблицю в books
+INSERT INTO books (title, author, published_year)
+VALUES ('A Court of Thorns and Roses', 'Sarah J. Maas', 2015),
+       ('Red Winter', 'Annette Marie', 2016),
+       ('The Girl of Ink & Stars', 'Kiran Millwood Hargrave', 2016),
+       ('A Thousand Heartbeats', 'Kiera Cass', 2022);
+
+В Visual Studio Code
+Термінал
+npm init -y
+npm install express pg body-parser
+
+server.js
+const express = require('express');
+const bodyParser = require('body-parser');
+const { Pool } = require('pg');
+
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.json());
+
+// Налаштування з'єднання з базою даних
+const pool = new Pool({
+    host: 'localhost',
+    user: 'postgres',
+    password: 'vi349',
+    database: 'library',
+    port: 5432
+});
+
+// Create (POST /books)
+app.post('/books', async (req, res) => {
+    const { title, author, published_year } = req.body;
+    const result = await pool.query(
+        'INSERT INTO books (title, author, published_year) VALUES ($1, $2, $3) RETURNING *',
+        [title, author, published_year]
+    );
+    res.status(201).json(result.rows[0]);
+});
+
+// Read (GET /books)
+app.get('/books', async (req, res) => {
+    const result = await pool.query('SELECT * FROM books');
+    res.json(result.rows);
+});
+
+// Read (GET /books/id)
+app.get('/books/:id', async (req, res) => {
+    const result = await pool.query('SELECT * FROM books WHERE id = $1', [req.params.id]);
+    res.json(result.rows[0]);
+});
+
+// Update (PUT /books/id)
+app.put('/books/:id', async (req, res) => {
+    const { title, author, published_year } = req.body;
+    const result = await pool.query(
+        'UPDATE books SET title = $1, author = $2, published_year = $3 WHERE id = $4 RETURNING *',
+        [title, author, published_year, req.params.id]
+    );
+    res.json(result.rows[0]);
+});
+
+// Delete (DELETE /books/id)
+app.delete('/books/:id', async (req, res) => {
+    await pool.query('DELETE FROM books WHERE id = $1', [req.params.id]);
+    res.status(204).send();
+});
+
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
+
