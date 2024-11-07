@@ -24,29 +24,23 @@ DB_USER=your_username
 DB_PASSWORD=your_password
 DB_NAME=university
 
-db.js
+server.js
+const express = require('express');
 const { Pool } = require('pg');
 require('dotenv').config();
 
+const app = express();
 const pool = new Pool({
     host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
+    port: process.env.DB_PORT
 });
 
-module.exports = pool;
+app.use(express.json());
 
-server.js
-const express = require('express');
-const pool = require('./db');
-require('dotenv').config();
-
-const app = express();
-app.use(express.json()); // Для парсингу JSON
-
-// 1. Отримання всіх студентів
+// Отримати всіх студентів
 app.get('/api/students', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM students');
@@ -57,13 +51,13 @@ app.get('/api/students', async (req, res) => {
     }
 });
 
-// 2. Отримання студента за ID
+// Отримати студента за id
 app.get('/api/students/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const result = await pool.query('SELECT * FROM students WHERE id = $1', [id]);
         if (result.rows.length === 0) {
-            return res.status(404).send('Student not found');
+            return res.status(404).send("Student not found");
         }
         res.json(result.rows[0]);
     } catch (err) {
@@ -72,47 +66,61 @@ app.get('/api/students/:id', async (req, res) => {
     }
 });
 
-// 3. Додавання нового студента
+// Додати нового студента
 app.post('/api/students', async (req, res) => {
-    const { name, age, major } = req.body;
+    const { name, age, major } = req.body; // Дані студента із запиту
     try {
         const result = await pool.query(
             'INSERT INTO students (name, age, major) VALUES ($1, $2, $3) RETURNING *',
             [name, age, major]
         );
-        res.status(201).json(result.rows[0]);
+        res.status(201).json(result.rows[0]); // Повертаємо створеного студента
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Error adding student");
     }
 });
 
-// 4. Оновлення студента за ID
+// Оновити студента за id
 app.put('/api/students/:id', async (req, res) => {
-    const { id } = req.params;
-    const { name, age, major } = req.body;
+    const studentId = req.params.id; // Отримуємо id студента з параметрів URL
+    const { name, age, major } = req.body; // Отримуємо нові значення з тіла запиту
+
+    // Перевірка на наявність усіх обов'язкових полів
+    if (!name || !age || !major) {
+        return res.status(400).send('Missing required fields: name, age, or major');
+    }
+
     try {
+        // Оновлення студента в базі даних
         const result = await pool.query(
             'UPDATE students SET name = $1, age = $2, major = $3 WHERE id = $4 RETURNING *',
-            [name, age, major, id]
+            [name, age, major, studentId]
         );
-        if (result.rows.length === 0) {
+
+        if (result.rowCount === 0) {
+            // Якщо студент не знайдений, відправити помилку
             return res.status(404).send('Student not found');
         }
+
+        // Повернути оновленого студента
         res.json(result.rows[0]);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("Error updating student");
+        res.status(500).send('Error updating student');
     }
 });
 
-// 5. Видалення студента за ID
+// Видалити студента за id
 app.delete('/api/students/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const result = await pool.query('DELETE FROM students WHERE id = $1 RETURNING *', [id]);
+        const result = await pool.query(
+            'DELETE FROM students WHERE id = $1 RETURNING *',
+            [id]
+        );
         if (result.rows.length === 0) {
-            return res.status(404).send('Student not found');
+            return res.status(404).send("Student not found");
         }
         res.status(204).send();
     } catch (err) {
@@ -125,4 +133,3 @@ app.delete('/api/students/:id', async (req, res) => {
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
-
